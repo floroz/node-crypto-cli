@@ -63,5 +63,5 @@
     "resolveJsonModule": false
   },
   "include": ["src/**/*"],
-  "exclude": ["node_modules"]
+  "exclude": ["node_modules", "bin", ".gitignore", ".env"]
 }
