@@ -1,22 +1,51 @@
 import keyManager from "../lib/KeyManager";
+import inquirer from "inquirer";
+import { isRequired } from "../utils/validation";
 
 class Key {
-  constructor(private keyManagerInstance: typeof keyManager) {}
+  public async set() {
+    let input: { key: string };
+    try {
+      input = await inquirer.prompt([
+        {
+          type: "input",
+          name: "key",
+          message: "Insert your API_KEY " + "http://nomics.com",
+          validate: isRequired,
+        },
+      ]);
+    } catch (error) {
+      console.error(error);
+      throw new Error("Something went wrong...Try again.");
+    }
 
-  set(...args: any[]) {
-    const [, , key] = args;
-    this.keyManagerInstance.setApiKey(key);
-    return this.keyManagerInstance.getApiKey();
+    keyManager.setApiKey(input.key);
+
+    const key = input.key;
+
+    return key;
   }
 
   show() {
-    return this.keyManagerInstance.getApiKey();
+    try {
+      const key = keyManager.getApiKey();
+      console.log("Current API KEY: ", key);
+      return key;
+    } catch (error) {
+      console.log("Error retrieving the API KEY");
+      console.error(error.message);
+    }
   }
 
   remove() {
-    this.keyManagerInstance.setApiKey(undefined);
-    return this.keyManagerInstance.getApiKey();
+    try {
+      const removedKey = keyManager.removeKey();
+      console.log("API KEY Removed: ", removedKey);
+    } catch (error) {
+      console.log("Error deleting the API KEY");
+      console.error(error.message);
+    }
   }
 }
 
-export default new Key(keyManager);
+export default new Key();
