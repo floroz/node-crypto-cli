@@ -1,0 +1,8 @@
+{
+  "name": "coindex",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "git@github.com:floroz/node-crypto-cli.git",
+  "author": "Daniele <tortora87@gmail.com>",
+  "license": "MIT"
+}
