@@ -1,4 +1,4 @@
-import apiService from "../api";
+import { ApiService } from "../api";
 import keyManager from "../lib/KeyManager";
 
 type PriceOptionCommands = {
@@ -14,12 +14,14 @@ class Check {
       if (!apiKey) {
         throw new Error("No API Key found.");
       }
-      const data = await apiService.getPrices(
+
+      const apiService = new ApiService(apiKey);
+
+      const output = await apiService.getPrices(
         optionCommands.coin,
-        optionCommands.cur,
-        apiKey
+        optionCommands.cur
       );
-      console.log(data);
+      console.log(output);
     } catch (error) {
       console.error(error);
     }

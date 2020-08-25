@@ -1,23 +1,24 @@
-import axios, { AxiosInstance } from "axios";
+import axios from "axios";
 
 export class ApiService {
-  constructor(private axiosClient: AxiosInstance) {}
+  constructor(private apiKey: string) {}
 
-  public async getPrices(
-    coins: string,
-    currencyToConvert: string,
-    apiKey: string
-  ) {
+  public async getPrices(coins: string, currencyToConvert: string) {
     try {
-      const response = await this.axiosClient.get(
-        `https://api.nomics.com/v1/currencies/ticker?key=${apiKey}&ids=${coins}&convert=${currencyToConvert}`
+      const response = await axios.get(
+        `https://api.nomics.com/v1/currencies/ticker?key=${this.apiKey}&ids=${coins}&convert=${currencyToConvert}`
       );
-      return response.data;
+      let output = "";
+
+      response.data.map((coin: any) => {
+        output += `
+        Coin: ${coin.symbol} (${coin.name}) | Price: ${coin.price} | Rank: ${coin.rank}`;
+      });
+
+      return output;
     } catch (error) {
       console.error("Error in retriving data from the API");
       console.error(error);
     }
   }
 }
-
-export default new ApiService(axios);
