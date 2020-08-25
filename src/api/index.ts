@@ -11,8 +11,7 @@ export class ApiService {
       let output = "";
 
       response.data.map((coin: any) => {
-        output += `
-        Coin: ${coin.symbol} (${coin.name}) | Price: ${coin.price} | Rank: ${coin.rank}`;
+        output += `Coin: ${coin.symbol} (${coin.name}) | Price: ${coin.price} | Rank: ${coin.rank} \n`;
       });
 
       return output;
